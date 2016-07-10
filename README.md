@@ -1,4 +1,4 @@
-# Hexo-prism-plugin
+# Hexo-Prism-Plugin
 
 Since `highlight.js` didn't support JSX syntax properly, I wrote this plugin to replace
 Hexo's default code highlight plugin.
