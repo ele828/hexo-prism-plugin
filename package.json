@@ -1,0 +1,14 @@
+{
+  "name": "hexo-medium-image-plugin",
+  "version": "1.0.0",
+  "description": "Hexo code highlight by Prism.js",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Eric Wong",
+  "license": "ISC",
+  "dependencies": {
+    "hexo-fs": "^0.1.6"
+  }
+}
