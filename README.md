@@ -1,6 +1,6 @@
-Hexo-prism-plugin
+# Hexo-prism-plugin
 
-Since `highlight.js` didn't support JSX syntax properly, I write this plugin to replace
+Since `highlight.js` didn't support JSX syntax properly, I wrote this plugin to replace
 Hexo's default code highlight plugin.
 
 ## Install
@@ -21,24 +21,22 @@ prism_plugin:
   - preprocess  (Preprocess code in node)
 
 - `theme`:
-  - `default`
-  - `coy`
-  - `dark`
-  - `funky`
-  - `okaidia`
-  - `solarizedlight`
-  - `tomorrow`
-  - `twilight`
+  - default
+  - coy
+  - dark
+  - funky
+  - okaidia
+  - solarizedlight
+  - tomorrow
+  - twilight
 
 And then, clean and generate project by running command:
 
-```
-hexo clean
-```
+`hexo clean`
 
-```
+`
 hexo g
-```
+`
 
 Note: if you change theme, you should re-generate your project.
 
