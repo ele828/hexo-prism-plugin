@@ -32,11 +32,13 @@ prism_plugin:
 
 And then, clean and generate project by running command:
 
-`hexo clean`
+```
+hexo clean
+```
 
-`
+```
 hexo g
-`
+```
 
 Note: if you change theme, you should re-generate your project.
 
