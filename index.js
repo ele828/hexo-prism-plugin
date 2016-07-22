@@ -1,3 +1,5 @@
+'use strict'
+
 const fs = require('hexo-fs');
 const path = require('path');
 const Prism = require('./prism.js');
