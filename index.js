@@ -28,8 +28,12 @@ const themeDir = path.join(pluginDir, 'themes');
 const libUri = path.join(pluginDir, 'prism.js');
 
 // Process sub-directory
-if (hexo.config.root && hexo.config.root !== '/')
-  baseDir += hexo.config.root;
+let configRoot = hexo.config.root;
+if (configRoot && configRoot !== '/') {
+  if (configRoot[configRoot.length - 1] === '/')
+    configRoot = configRoot.slice(0, configRoot.length - 1);
+} else
+  configRoot = '';
 
 function PrismPlugin(data) {
   let theme = hexo.config.prism_plugin.theme  || '';
@@ -65,9 +69,9 @@ function PrismPlugin(data) {
   // Inject script and stylesheet to post pages
   let jsImports = '';
   if (mode === 'realtime') {
-    jsImports = '<script src="/js/prism.js"></script>';
+    jsImports = `<script src="${configRoot}/js/prism.js"></script>`;
   }
-  let cssImports = `<link href="/css/${themeFile}" rel="stylesheet">`;
+  let cssImports = `<link href="${configRoot}/css/${themeFile}" rel="stylesheet">`;
   data.content += cssImports + jsImports;
   return data;
 }
