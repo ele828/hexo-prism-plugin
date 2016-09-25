@@ -27,6 +27,10 @@ const pluginDir = path.join(
 const themeDir = path.join(pluginDir, 'themes');
 const libUri = path.join(pluginDir, 'prism.js');
 
+// Process sub-directory
+if (hexo.config.root && hexo.config.root !== '/')
+  baseDir += hexo.config.root;
+
 function PrismPlugin(data) {
   let theme = hexo.config.prism_plugin.theme  || '';
   let mode = hexo.config.prism_plugin.mode || 'preprocess';
