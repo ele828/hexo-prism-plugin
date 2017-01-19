@@ -15,6 +15,11 @@ prism_plugin:
   mode: 'preprocess'    # realtime/preprocess
   theme: 'default'
 ```
+Note: check `_config.yml` `highlight` option. Make sure that
+```yaml
+highlight:
+  enable: false
+```
 
 - `mode`:
   - realtime  (Parse code on browser in real time)
