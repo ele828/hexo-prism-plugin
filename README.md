@@ -14,6 +14,7 @@ First, you should edit your `_config.yml` by adding following configuration.
 prism_plugin:
   mode: 'preprocess'    # realtime/preprocess
   theme: 'default'
+  line_number: false    # default false
 ```
 Note: check `_config.yml` `highlight` option. Make sure that
 ```yaml
@@ -34,6 +35,10 @@ highlight:
   - solarizedlight
   - tomorrow
   - twilight
+
+- `line_number`:
+  - true (Show line numbers)
+  - false (Default, Hide line numbers)
 
 And then, clean and generate project by running command:
 
