@@ -38,6 +38,7 @@ if (configRoot && configRoot !== '/') {
 function PrismPlugin(data) {
   let theme = hexo.config.prism_plugin.theme  || '';
   let mode = hexo.config.prism_plugin.mode || 'preprocess';
+  let line_number = hexo.config.prism_plugin.line_number || false;
 
   // Copy script and stylesheet files
   if (theme === 'default') theme = '';
@@ -51,11 +52,21 @@ function PrismPlugin(data) {
   if (mode === 'realtime') {
     fs.copyFile(path.join(pluginDir, 'prism.js'),
       path.join(baseDir, 'public', 'js', 'prism.js'));
+    if (line_number) {
+      fs.copyFile(path.join(pluginDir, 'plugin', 'line-numbers.js'),
+        path.join(baseDir, 'public', 'js', 'line-numbers.js'));
+    }
+  }
+  
+  if (line_number) {
+    fs.copyFile(path.join(pluginDir, 'plugin', 'line-numbers.css'),
+      path.join(baseDir, 'public', 'css', 'line-numbers.css'));
   }
 
   data.content = data.content.replace(regex, (origin, lang, code) => {
     if (lang === 'obj-c') lang = 'objectivec';
-    const startTag = `<pre class="language-${lang}"><code class="language-${lang}">`;
+    let lineNumbers = line_number ? 'line-numbers' : '';
+    const startTag = `<pre class="${lineNumbers} language-${lang}"><code class="language-${lang}">`;
     const endTag = `</code></pre>`;
     code = unescape(code);
     let parsedCode = '';
@@ -63,6 +74,15 @@ function PrismPlugin(data) {
       parsedCode = Prism.highlight(code, Prism.languages[lang]);
     }
     else parsedCode = code;
+    if(line_number) {
+      let match = parsedCode.match(/\n(?!$)/g);
+      let linesNum = match ? match.length + 1 : 1;
+      let lines = new Array(linesNum + 1);
+      lines = lines.join('<span></span>');
+      let startLine = '<span aria-hidden="true" class="line-numbers-rows">';
+      let endLine = '</span>';
+      parsedCode += startLine + lines + endLine;
+    }
     return startTag + parsedCode + endTag;
   });
 
@@ -70,8 +90,14 @@ function PrismPlugin(data) {
   let jsImports = '';
   if (mode === 'realtime') {
     jsImports = `<script src="${configRoot}/js/prism.js"></script>`;
+    if (line_number) {
+      jsImports += `<script src="${configRoot}/js/line-numbers.js"></script>`;
+    }
   }
   let cssImports = `<link href="${configRoot}/css/${themeFile}" rel="stylesheet">`;
+  if (line_number) {
+    cssImports += `<link href="${configRoot}/css/line-numbers.css" rel="stylesheet">`;
+  }
   data.content += cssImports + jsImports;
   return data;
 }
