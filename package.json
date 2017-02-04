@@ -1,6 +1,6 @@
 {
   "name": "hexo-prism-plugin",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "Hexo code highlight by Prism.js",
   "main": "index.js",
   "scripts": {
@@ -9,6 +9,7 @@
   "author": "Eric Wong",
   "license": "ISC",
   "dependencies": {
-    "hexo-fs": "^0.1.6"
+    "hexo-fs": "^0.1.6",
+    "prismjs": "^1.6.0"
   }
 }
