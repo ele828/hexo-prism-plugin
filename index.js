@@ -56,8 +56,8 @@ function PrismPlugin(data) {
     fs.copyFile(path.join(prismDir, 'prism.js'),
       path.join(baseDir, 'public', 'js', 'prism.js'));
     if (line_number) {
-      fs.copyFile(path.join(prismDir, 'plugins/line-numbers', 'prism-line-numbers.js'),
-        path.join(baseDir, 'public', 'js', 'prism-line-numbers.js'));
+      fs.copyFile(path.join(prismDir, 'plugins/line-numbers', 'prism-line-numbers.min.js'),
+        path.join(baseDir, 'public', 'js', 'prism-line-numbers.min.js'));
     }
   }
   
@@ -94,7 +94,7 @@ function PrismPlugin(data) {
   if (mode === 'realtime') {
     jsImports = `<script src="${configRoot}/js/prism.js"></script>`;
     if (line_number) {
-      jsImports += `<script src="${configRoot}/js/prism-line-numbers.js"></script>`;
+      jsImports += `<script src="${configRoot}/js/prism-line-numbers.min.js"></script>`;
     }
   }
   let cssImports = `<link href="${configRoot}/css/${themeFile}" rel="stylesheet">`;
