@@ -9,7 +9,6 @@
   "author": "Eric Wong",
   "license": "ISC",
   "dependencies": {
-    "hexo-fs": "^0.1.6",
-    "prismjs": "^1.6.0"
+    "hexo-fs": "^0.1.6"
   }
 }
