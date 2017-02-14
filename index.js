@@ -3,7 +3,6 @@
 const fs = require('hexo-fs');
 const path = require('path');
 const Prism = require('node-prismjs');
-require('prismjs/plugins/line-numbers/prism-line-numbers.min');
 
 const map = {
   '&#39;': '\'',
