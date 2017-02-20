@@ -51,7 +51,9 @@ hexo clean
 hexo g
 ```
 
-Note: if you change theme, you should re-generate your project.
+## Supported languages
+You could find the supported languages here:
+http://prismjs.com/#languages-list
 
 ## License
 MIT
