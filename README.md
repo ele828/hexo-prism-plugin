@@ -1,5 +1,6 @@
-# Hexo-Prism-Plugin
+[![NPM](https://nodei.co/npm/hexo-prism-plugin.png?downloads=true&downloadRank=true&stars=true)](https://nodei.co/npm/hexo-prism-plugin/)
 
+# Hexo-Prism-Plugin
 Since `highlight.js` didn't support JSX syntax properly, I wrote this plugin to replace
 Hexo's default code highlight plugin.
 
