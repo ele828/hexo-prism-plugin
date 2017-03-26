@@ -112,11 +112,11 @@ function copyAssets() {
 function importAssets(code, data) {
   const js = [];
   const css = [
-    `<link rel="stylesheet" href="/css/${prismThemeFileName}" type="text/css">`
+    `<link rel="stylesheet" href="` + hexo.config.root + `css/${prismThemeFileName}" type="text/css">`
   ];
 
   if(line_number) {
-    css.push(`<link rel="stylesheet" href="/css/prism-line-numbers.css" type="text/css">`);
+    css.push(`<link rel="stylesheet" href="` + hexo.config.root + `css/prism-line-numbers.css" type="text/css">`);
   }
   if(mode === 'realtime') {
     js.push('<script src="/js/prism.js"></script>');
