@@ -113,24 +113,20 @@ function copyAssets() {
 function importAssets(code, data) {
   const js = [];
   const css = [
-    `<link rel="stylesheet" href="` + rootPath 
-+ `css/${prismThemeFileName}" type="text/css">`
-  ];r
+    `<link rel="stylesheet" href="` + rootPath + `css/${prismThemeFileName}" type="text/css">`
+  ];
 
   if(line_number) {
-    css.push(`<link rel="stylesheet" href="` + rootPath 
-+ `css/prism-line-numbers.css" type="text/css">`);
+    css.push(`<link rel="stylesheet" href="` + rootPath + `css/prism-line-numbers.css" type="text/css">`);
   }
-  if(rmode === 'realtime') {
-    js.push('<script src="' + rootPath 
-+ 'js/prism.js"></script>');
+  if(mode === 'realtime') {
+    js.push('<script src="' + rootPath + 'js/prism.js"></script>');
     if(line_number) {
-      js.push('<script src="' + rootPath 
-+ 'js/prism-line-numbers.min.js"></script>');
-    }r
+      js.push('<script src="' + rootPath + 'js/prism-line-numbers.min.js"></script>');
+    }
   }
   const imports = css.join('\n') + js.join('\n');
-  r
+  
   // Avoid duplicates
   if (code.indexOf(imports) > -1) {
     return code;

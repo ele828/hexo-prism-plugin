@@ -1,6 +1,6 @@
 {
   "name": "hexo-prism-plugin",
-  "version": "2.0.1",
+  "version": "2.0.2",
   "description": "Hexo code highlight by Prism.js",
   "main": "index.js",
   "scripts": {
