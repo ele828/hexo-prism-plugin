@@ -127,16 +127,16 @@ function copyAssets() {
 function importAssets(code, data) {
   const js = [];
   const css = [
-    `<link rel="stylesheet" href="` + rootPath + `css/${prismThemeFileName}" type="text/css">`
+    `<link rel="stylesheet" href="${rootPath}css/${prismThemeFileName}" type="text/css">`
   ];
 
   if (line_number) {
-    css.push(`<link rel="stylesheet" href="` + rootPath + `css/prism-line-numbers.css" type="text/css">`);
+    css.push(`<link rel="stylesheet" href="${rootPath}css/prism-line-numbers.css" type="text/css">`);
   }
   if (mode === 'realtime') {
-    js.push('<script src="' + rootPath + 'js/prism.js"></script>');
+    js.push(`<script src="${rootPath}js/prism.js"></script>`);
     if (line_number) {
-      js.push('<script src="' + rootPath + 'js/prism-line-numbers.min.js"></script>');
+      js.push(`<script src="${rootPath}js/prism-line-numbers.min.js"></script>`);
     }
   }
   const imports = css.join('\n') + js.join('\n');
