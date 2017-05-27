@@ -13,12 +13,17 @@ const map = {
 };
 
 const regex = /<pre><code class="(.*)?">([\s\S]*?)<\/code><\/pre>/igm;
+const captionRegex = /<p><code>(.*?)\s(.*?)\n([\s\S]*)<\/code><\/p>/igm;
 
 const baseDir = hexo.base_dir;
 const rootPath = hexo.config.root || '/';
 const prismDir = path.join(baseDir, 'node_modules', 'prismjs');
 const prismThemeDir = path.join(prismDir, 'themes');
 const prismjsFilePath = path.join(prismThemeDir, 'prism.js');
+
+// If prism plugin has not been configured,
+// it cannot be initialized properly.
+if (!hexo.config.prism_plugin) return;
 
 // Plugin settings from config
 const prismThemeName = hexo.config.prism_plugin.theme || '';
@@ -45,6 +50,15 @@ function unescape(str) {
  * @return {Object}
  */
 function PrismPlugin(data) {
+  // Patch for caption support
+  if (captionRegex.test(data.content)) {
+    // Attempt to parse the code
+    data.content = data.content.replace(captionRegex, (origin, lang, caption, code) => {
+      if (!lang || !caption || !code) return origin;
+      return `<figcaption>${caption}</figcaption><pre><code class="${lang}">${code}</code></pre>`;
+    })
+  }
+
   data.content = data.content.replace(regex, (origin, lang, code) => {
     const lineNumbers = line_number ? 'line-numbers' : '';
     const startTag = `<pre class="${lineNumbers} language-${lang}"><code class="language-${lang}">`;
@@ -81,7 +95,7 @@ function copyAssets() {
   }];
 
   // If line_number is enabled in plugin config add the corresponding stylesheet
-  if(line_number) {
+  if (line_number) {
     assets.push({
       path: 'css/prism-line-numbers.css',
       data: () => fs.createReadStream(path.join(prismDir, 'plugins/line-numbers', 'prism-line-numbers.css'))
@@ -116,17 +130,17 @@ function importAssets(code, data) {
     `<link rel="stylesheet" href="` + rootPath + `css/${prismThemeFileName}" type="text/css">`
   ];
 
-  if(line_number) {
+  if (line_number) {
     css.push(`<link rel="stylesheet" href="` + rootPath + `css/prism-line-numbers.css" type="text/css">`);
   }
-  if(mode === 'realtime') {
+  if (mode === 'realtime') {
     js.push('<script src="' + rootPath + 'js/prism.js"></script>');
-    if(line_number) {
+    if (line_number) {
       js.push('<script src="' + rootPath + 'js/prism-line-numbers.min.js"></script>');
     }
   }
   const imports = css.join('\n') + js.join('\n');
-  
+
   // Avoid duplicates
   if (code.indexOf(imports) > -1) {
     return code;
