@@ -3,6 +3,7 @@
 const fs = require('hexo-fs');
 const path = require('path');
 const Prism = require('node-prismjs');
+const dirResolve = require('dir-resolve');
 
 const map = {
   '&#39;': '\'',
@@ -15,10 +16,33 @@ const map = {
 const regex = /<pre><code class="(.*)?">([\s\S]*?)<\/code><\/pre>/igm;
 const captionRegex = /<p><code>(.*?)\s(.*?)\n([\s\S]*)<\/code><\/p>/igm;
 
-const baseDir = hexo.base_dir;
 const rootPath = hexo.config.root || '/';
-const prismDir = path.join(baseDir, 'node_modules', 'prismjs');
-const prismThemeDir = path.join(prismDir, 'themes');
+
+const themeRegex = /^prism-(.*).css$/;
+const prismDir = require.resolve('prismjs/package.json').replace('package.json', '');
+
+const prismThemeDir = dirResolve('prismjs/themes');
+const extraThemeDir = dirResolve('prism-themes/themes');
+function toThemeMap(basePath, filename) {
+  const matches = filename.match(themeRegex);
+  if (!matches)
+    return;
+
+  return {
+    name: matches[1],
+    filename,
+    path: path.join(basePath, filename)
+  };
+}
+const standardThemes = fs.listDirSync(prismThemeDir).map(themeFileName => toThemeMap(prismThemeDir, themeFileName));
+const extraThemes = fs.listDirSync(extraThemeDir).map(themeFileName => toThemeMap(extraThemeDir, themeFileName));
+const themes = standardThemes.concat(extraThemes).filter(Boolean);
+themes.push({
+  name: 'default',
+  filename: 'prism.css',
+  path: path.join(prismThemeDir, 'prism.css')
+});
+
 const prismjsFilePath = path.join(prismThemeDir, 'prism.js');
 
 // If prism plugin has not been configured,
@@ -26,12 +50,16 @@ const prismjsFilePath = path.join(prismThemeDir, 'prism.js');
 if (!hexo.config.prism_plugin) return;
 
 // Plugin settings from config
-const prismThemeName = hexo.config.prism_plugin.theme || '';
+const prismThemeName = hexo.config.prism_plugin.theme || 'default';
 const mode = hexo.config.prism_plugin.mode || 'preprocess';
 const line_number = hexo.config.prism_plugin.line_number || false;
 
-const prismThemeFileName = 'prism' + (prismThemeName === 'default' ? '' : `-${prismThemeName}`) + '.css';
-const prismThemeFilePath = path.join(prismThemeDir, prismThemeFileName);
+const prismTheme = themes.find(theme => theme.name == prismThemeName);
+if (!prismTheme) {
+  throw new Error("Invalid theme " + prismThemeName + ". Valid Themes: \n" + themes.map(t => t.name).concat('\n'));
+}
+const prismThemeFileName = prismTheme.filename;
+const prismThemeFilePath = prismTheme.path;
 
 /**
  * Unescape from Marked escape
