@@ -36,6 +36,20 @@ highlight:
   - solarizedlight
   - tomorrow
   - twilight
+  - atom-dark
+  - base16-ateliersulphurpool.light
+  - cb
+  - duotone-dark
+  - duotone-earth
+  - duotone-forest
+  - duotone-light
+  - duotone-sea
+  - duotone-space
+  - ghcolors
+  - hopscotch
+  - pojoaque
+  - vs
+  - xonokai
 
 - `line_number`:
   - true (Show line numbers)
