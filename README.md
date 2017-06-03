@@ -9,7 +9,7 @@ Hexo's default code highlight plugin.
 npm i -S hexo-prism-plugin
 ```
 ## Usage
-First, you should edit your `_config.yml` by adding following configuration.
+Firstly, you should edit your `_config.yml` by adding following configuration.
 
 ```yaml
 prism_plugin:
@@ -17,17 +17,27 @@ prism_plugin:
   theme: 'default'
   line_number: false    # default false
 ```
-Note: check `_config.yml` `highlight` option. Make sure that
+After that, check `highlight` option in `_config.yml`. Make sure that default code highlight plugin is disabled.
 ```yaml
 highlight:
   enable: false
 ```
+Finally, clean and re-generate your project by running following commands:
 
-- `mode`:
+```
+hexo clean
+```
+
+```
+hexo generate
+```
+
+## Options
+- mode:
   - realtime  (Parse code on browser in real time)
   - preprocess  (Preprocess code in node)
 
-- `theme`:
+- theme:
   - default
   - coy
   - dark
@@ -51,19 +61,13 @@ highlight:
   - vs
   - xonokai
 
-- `line_number`:
+- line_number:
   - true (Show line numbers)
   - false (Default, Hide line numbers)
 
-And then, clean and generate project by running command:
-
-```
-hexo clean
-```
-
-```
-hexo g
-```
+## Themes
+You can check out prism-themes project for additional theme preview:
+https://github.com/PrismJS/prism-themes#available-themes
 
 ## Supported languages
 You could find the supported languages here:
