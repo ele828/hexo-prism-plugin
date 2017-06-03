@@ -67,10 +67,12 @@ hexo generate
 
 ## Themes
 You can check out prism-themes project for additional theme preview:
+
 https://github.com/PrismJS/prism-themes#available-themes
 
 ## Supported languages
 You could find the supported languages here:
+
 http://prismjs.com/#languages-list
 
 ## License
