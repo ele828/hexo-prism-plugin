@@ -15,14 +15,14 @@ const map = {
 
 const regex = /<pre><code class="(.*)?">([\s\S]*?)<\/code><\/pre>/igm;
 const captionRegex = /<p><code>(.*?)\s(.*?)\n([\s\S]*)<\/code><\/p>/igm;
+const themeRegex = /^prism-(.*).css$/;
 
 const rootPath = hexo.config.root || '/';
-
-const themeRegex = /^prism-(.*).css$/;
-const prismDir = require.resolve('prismjs/package.json').replace('package.json', '');
-
+const prismLineNumbersPluginDir = dirResolve('prismjs/plugins/line-numbers');
 const prismThemeDir = dirResolve('prismjs/themes');
 const extraThemeDir = dirResolve('prism-themes/themes');
+const prismMainFile = require.resolve('prismjs');
+
 function toThemeMap(basePath, filename) {
   const matches = filename.match(themeRegex);
   if (!matches)
@@ -36,14 +36,15 @@ function toThemeMap(basePath, filename) {
 }
 const standardThemes = fs.listDirSync(prismThemeDir).map(themeFileName => toThemeMap(prismThemeDir, themeFileName));
 const extraThemes = fs.listDirSync(extraThemeDir).map(themeFileName => toThemeMap(extraThemeDir, themeFileName));
+
+// Since the regex will not match for the default "prism.css" theme,
+// we filter the null theme out and manually add the default theme to the array
 const themes = standardThemes.concat(extraThemes).filter(Boolean);
 themes.push({
   name: 'default',
   filename: 'prism.css',
   path: path.join(prismThemeDir, 'prism.css')
 });
-
-const prismjsFilePath = path.join(prismThemeDir, 'prism.js');
 
 // If prism plugin has not been configured,
 // it cannot be initialized properly.
@@ -126,7 +127,7 @@ function copyAssets() {
   if (line_number) {
     assets.push({
       path: 'css/prism-line-numbers.css',
-      data: () => fs.createReadStream(path.join(prismDir, 'plugins/line-numbers', 'prism-line-numbers.css'))
+      data: () => fs.createReadStream(path.join(prismLineNumbersPluginDir, 'prism-line-numbers.css'))
     });
   }
 
@@ -134,12 +135,12 @@ function copyAssets() {
   if (mode === 'realtime') {
     assets.push({
       path: 'js/prism.js',
-      data: () => fs.createReadStream(path.join(prismDir, 'prism.js'))
+      data: () => fs.createReadStream(prismMainFilePath)
     });
     if (line_number) {
       assets.push({
         path: 'js/prism-line-numbers.min.js',
-        data: () => fs.createReadStream(path.join(prismDir, 'plugins/line-numbers', 'prism-line-numbers.min.js'))
+        data: () => fs.createReadStream(path.join(prismLineNumbersPluginDir, 'prism-line-numbers.min.js'))
       });
     }
   }
