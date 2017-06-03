@@ -13,16 +13,27 @@ const map = {
   '&quot;': '"'
 };
 
+const themeRegex = /^prism-(.*).css$/;
 const regex = /<pre><code class="(.*)?">([\s\S]*?)<\/code><\/pre>/igm;
 const captionRegex = /<p><code>(.*?)\s(.*?)\n([\s\S]*)<\/code><\/p>/igm;
-const themeRegex = /^prism-(.*).css$/;
 
-const rootPath = hexo.config.root || '/';
-const prismLineNumbersPluginDir = dirResolve('prismjs/plugins/line-numbers');
-const prismThemeDir = dirResolve('prismjs/themes');
-const extraThemeDir = dirResolve('prism-themes/themes');
-const prismMainFile = require.resolve('prismjs');
+/**
+ * Unescape from Marked escape
+ * @param {String} str
+ * @return {String}
+ */
+function unescape(str) {
+  if (!str || str === null) return '';
+  const re = new RegExp('(' + Object.keys(map).join('|') + ')', 'g');
+  return String(str).replace(re, (match) => map[match]);
+};
 
+/**
+ * Wrap theme file to unified format
+ * @param {any} basePath 
+ * @param {any} filename 
+ * @returns 
+ */
 function toThemeMap(basePath, filename) {
   const matches = filename.match(themeRegex);
   if (!matches)
@@ -34,8 +45,16 @@ function toThemeMap(basePath, filename) {
     path: path.join(basePath, filename)
   };
 }
-const standardThemes = fs.listDirSync(prismThemeDir).map(themeFileName => toThemeMap(prismThemeDir, themeFileName));
-const extraThemes = fs.listDirSync(extraThemeDir).map(themeFileName => toThemeMap(extraThemeDir, themeFileName));
+
+const rootPath = hexo.config.root || '/';
+const prismLineNumbersPluginDir = dirResolve('prismjs/plugins/line-numbers');
+const prismThemeDir = dirResolve('prismjs/themes');
+const extraThemeDir = dirResolve('prism-themes/themes');
+const prismMainFile = require.resolve('prismjs');
+const standardThemes = fs.listDirSync(prismThemeDir)
+  .map(themeFileName => toThemeMap(prismThemeDir, themeFileName));
+const extraThemes = fs.listDirSync(extraThemeDir)
+  .map(themeFileName => toThemeMap(extraThemeDir, themeFileName));
 
 // Since the regex will not match for the default "prism.css" theme,
 // we filter the null theme out and manually add the default theme to the array
@@ -46,32 +65,22 @@ themes.push({
   path: path.join(prismThemeDir, 'prism.css')
 });
 
-// If prism plugin has not been configured,
-// it cannot be initialized properly.
-if (!hexo.config.prism_plugin) return;
+// If prism plugin has not been configured, it cannot be initialized properly.
+if (!hexo.config.prism_plugin) {
+  throw new Error('`prism_plugin` options should be added to _config.yml file');
+}
 
 // Plugin settings from config
 const prismThemeName = hexo.config.prism_plugin.theme || 'default';
 const mode = hexo.config.prism_plugin.mode || 'preprocess';
 const line_number = hexo.config.prism_plugin.line_number || false;
 
-const prismTheme = themes.find(theme => theme.name == prismThemeName);
+const prismTheme = themes.find(theme => theme.name === prismThemeName);
 if (!prismTheme) {
   throw new Error("Invalid theme " + prismThemeName + ". Valid Themes: \n" + themes.map(t => t.name).concat('\n'));
 }
 const prismThemeFileName = prismTheme.filename;
 const prismThemeFilePath = prismTheme.path;
-
-/**
- * Unescape from Marked escape
- * @param {String} str
- * @return {String}
- */
-function unescape(str) {
-  if (!str || str == null) return '';
-  const re = new RegExp('(' + Object.keys(map).join('|') + ')', 'g');
-  return String(str).replace(re, (match) => map[match]);
-};
 
 /**
  * Code transform for prism plugin.
@@ -135,7 +144,7 @@ function copyAssets() {
   if (mode === 'realtime') {
     assets.push({
       path: 'js/prism.js',
-      data: () => fs.createReadStream(prismMainFilePath)
+      data: () => fs.createReadStream(prismMainFile)
     });
     if (line_number) {
       assets.push({
