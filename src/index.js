@@ -26,13 +26,13 @@ function unescape(str) {
   if (!str || str === null) return '';
   const re = new RegExp('(' + Object.keys(map).join('|') + ')', 'g');
   return String(str).replace(re, (match) => map[match]);
-};
+}
 
 /**
  * Wrap theme file to unified format
- * @param {any} basePath 
- * @param {any} filename 
- * @returns 
+ * @param {String} basePath
+ * @param {String} filename
+ * @return {Object}
  */
 function toThemeMap(basePath, filename) {
   const matches = filename.match(themeRegex);
