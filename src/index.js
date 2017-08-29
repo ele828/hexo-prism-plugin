@@ -15,7 +15,7 @@ const map = {
 
 const themeRegex = /^prism-(.*).css$/;
 const regex = /<pre><code class="(.*)?">([\s\S]*?)<\/code><\/pre>/igm;
-const captionRegex = /<p><code>(?![\s\S]*<code)(.*?)\s(.*?)\n([\s\S]*)<\/code><\/p>/igm; // Exclude multiple `code` tags
+const captionRegex = /<p><code>(?![\s\S]*<code)(.*?)\s(.*?)\n([\s\S]*)<\/code><\/p>/igm;
 
 /**
  * Unescape from Marked escape
