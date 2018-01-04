@@ -74,4 +74,4 @@ You could find the supported languages here:
 http://prismjs.com/#languages-list
 
 ## License
-BSD
+MIT
