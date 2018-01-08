@@ -8,7 +8,6 @@ npm i -S hexo-prism-plugin
 ```
 ## Usage
 Firstly, you should edit your `_config.yml` by adding following configuration.
-
 ```yaml
 prism_plugin:
   mode: 'preprocess'    # realtime/preprocess
