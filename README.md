@@ -13,6 +13,7 @@ prism_plugin:
   mode: 'preprocess'    # realtime/preprocess
   theme: 'default'
   line_number: false    # default false
+  custom_css: 'path/to/your/custom.css'     # optional
 ```
 After that, check `highlight` option in `_config.yml`. Make sure that default code highlight plugin is disabled.
 ```yaml
