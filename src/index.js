@@ -74,14 +74,14 @@ if (!hexo.config.prism_plugin) {
 const prismThemeName = hexo.config.prism_plugin.theme || 'default';
 const mode = hexo.config.prism_plugin.mode || 'preprocess';
 const line_number = hexo.config.prism_plugin.line_number || false;
+const custom_css = hexo.config.prism_plugin.custom_css || null;
 
 const prismTheme = themes.find(theme => theme.name === prismThemeName);
 if (!prismTheme) {
   throw new Error("Invalid theme " + prismThemeName + ". Valid Themes: \n" + themes.map(t => t.name).concat('\n'));
 }
 const prismThemeFileName = prismTheme.filename;
-const prismThemeFilePath = prismTheme.path;
-
+const prismThemeFilePath = custom_css === null ? prismTheme.path : path.join(hexo.base_dir, custom_css);
 /**
  * Code transform for prism plugin.
  * @param {Object} data
@@ -168,7 +168,7 @@ function importAssets(code, data) {
     `<link rel="stylesheet" href="${rootPath}css/${prismThemeFileName}" type="text/css">`
   ];
 
-  if (line_number) {
+  if (line_number && custom_css === null) {
     css.push(`<link rel="stylesheet" href="${rootPath}css/prism-line-numbers.css" type="text/css">`);
   }
   if (mode === 'realtime') {
@@ -189,8 +189,10 @@ function importAssets(code, data) {
 // Register prism plugin
 hexo.extend.filter.register('after_post_render', PrismPlugin);
 
-// Register to append static assets
-hexo.extend.generator.register('prism_assets', copyAssets);
+if (custom_css === null) {
+  // Register to append static assets
+  hexo.extend.generator.register('prism_assets', copyAssets);
 
-// Register for importing static assets
-hexo.extend.filter.register('after_render:html', importAssets);
+  // Register for importing static assets
+  hexo.extend.filter.register('after_render:html', importAssets);
+}
