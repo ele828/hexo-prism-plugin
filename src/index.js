@@ -75,6 +75,7 @@ const prismThemeName = hexo.config.prism_plugin.theme || 'default';
 const mode = hexo.config.prism_plugin.mode || 'preprocess';
 const line_number = hexo.config.prism_plugin.line_number || false;
 const custom_css = hexo.config.prism_plugin.custom_css || null;
+const no_assets = hexo.config.prism_plugin.no_assets || false;
 
 const prismTheme = themes.find(theme => theme.name === prismThemeName);
 if (!prismTheme) {
@@ -189,7 +190,7 @@ function importAssets(code, data) {
 // Register prism plugin
 hexo.extend.filter.register('after_post_render', PrismPlugin);
 
-if (custom_css === null) {
+if (custom_css === null && !no_assets) {
   // Register to append static assets
   hexo.extend.generator.register('prism_assets', copyAssets);
 
