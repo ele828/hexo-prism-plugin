@@ -63,6 +63,10 @@ hexo generate
   - true (Show line numbers)
   - false (Default, Hide line numbers)
 
+- no_assets
+  - true (Stop loading asset files)
+  - false (Default, load script and stylesheets files)
+
 ## Themes
 You can check out prism-themes project for additional theme preview:
 
