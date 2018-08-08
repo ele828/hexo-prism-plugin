@@ -188,7 +188,9 @@ function importAssets(code, data) {
 }
 
 // Register prism plugin
-hexo.extend.filter.register('after_post_render', PrismPlugin);
+// Set priority to make sure PrismPlugin executed first
+// Lower priority means that it will be executed first. The default priority is 10.
+hexo.extend.filter.register('after_post_render', PrismPlugin, 9);
 
 if (custom_css === null && !no_assets) {
   // Register to append static assets
