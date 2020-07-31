@@ -65,10 +65,12 @@ themes.push({
   path: path.join(prismThemeDir, 'prism.css')
 });
 
-// If prism plugin has not been configured, it cannot be initialized properly.
-if (!hexo.config.prism_plugin) {
-  throw new Error('`prism_plugin` options should be added to _config.yml file');
-}
+
+const config = hexo.config.prism_plugin = Object.assign({
+  mode: 'preprocess',
+  theme: 'default',
+  line_number: false
+}, hexo.config.prism_plugin);
 
 // Plugin settings from config
 const prismThemeName = hexo.config.prism_plugin.theme || 'default';
