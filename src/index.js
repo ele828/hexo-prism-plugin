@@ -10,7 +10,9 @@ const map = {
   '&amp;': '&',
   '&gt;': '>',
   '&lt;': '<',
-  '&quot;': '"'
+  '&quot;': '"',
+  '&#123;': '{',
+  '&#125;': '}'
 };
 
 const themeRegex = /^prism-(.*).css$/;
