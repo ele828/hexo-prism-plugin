@@ -2,6 +2,10 @@
 Since `highlight.js` didn't support JSX syntax properly, I wrote this plugin to replace
 Hexo's default code highlight plugin.
 
+## Update Info
+
+Update **prismjs** dependency to **^1.0.0**
+
 ## Install
 ```
 npm i -S hexo-prism-plugin
